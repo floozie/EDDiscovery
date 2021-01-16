@@ -99,28 +99,30 @@ namespace SystemSearch
 
 
 
-            Console.WriteLine("Json parsed");
+           
             //reference black hole system: Shrogaei UU-X E1-5269 xyz: -1240.5;1144.71875;21046.3125
 
 
             List<Coords> coordinatesAroundReferenceSystem = getRandomCoodinateList(new Coords(-1240.5, 1144.71, 21046.31),
-                new Coords(1000,1, 1000.0), new Coords(1200, 100, 1200.0), 100);
+                new Coords(25,1, 25), new Coords(1200, 100, 1200.0), 100);
 
             System.IO.StreamWriter sw1 = new System.IO.StreamWriter("systems.txt");
 
-            List<ISystem> systems = new List<ISystem>();
+            Dictionary<string, ISystem> systems = new Dictionary<string, ISystem>();
             foreach (Coords c in coordinatesAroundReferenceSystem)
             {
                 sw1.WriteLine(c[0].ToString()+";"+ c[1].ToString()+";"+ c[2].ToString());
                 ISystem sys = EliteDangerousCore.DB.SystemCache.FindNearestSystemTo(c[0],c[1],c[2],100.0);
-                systems.Add(sys);
-
+                if (!systems.ContainsKey(sys.Name))
+                {
+                    systems.Add(sys.Name,sys);
+                }
             }
 
             
 
 
-            foreach (ISystem sys in systems)
+            foreach (ISystem sys in systems.Values)
             {
                 if (sys != null)
                 {
@@ -128,7 +130,7 @@ namespace SystemSearch
                 }
             }
             sw1.Close();
-
+            Console.WriteLine("systems written");
             /*EliteDangerousCore.ISystem system = new SystemClass();
             ISystem foundSystem = EliteDangerousCore.DB.SystemCache.FindSystem("Shrogaei UU-X E1-5269");
             Console.WriteLine(foundSystem.X.ToString() + ";" + foundSystem.Y.ToString() + ";" + foundSystem.Z.ToString());*/
