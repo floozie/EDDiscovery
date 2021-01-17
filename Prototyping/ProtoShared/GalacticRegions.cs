@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SystemSearch.Classes
+namespace ProtoShared
 {
     public class Region
     {
@@ -61,7 +61,7 @@ namespace SystemSearch.Classes
 
     public static partial class RegionMap
     {
-        private static string[] RegionNames = new[]
+        public static string[] RegionNames = new[]
         {
             null,
             "Galactic Centre",
